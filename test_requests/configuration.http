@@ -1,0 +1,7 @@
+// Create configuration
+POST http://localhost:8000/api/v1/create_configuration
+Content-Type: application/json
+
+{
+    'test': 'test'
+}
