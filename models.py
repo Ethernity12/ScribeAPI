@@ -1,3 +1,4 @@
+from typing import List
 from pydantic import BaseModel
 
 class Configuration(BaseModel):
@@ -5,3 +6,5 @@ class Configuration(BaseModel):
     ticket_channel: int
     questionnaire_channel: int
     consideration_channel: int
+    moderator_roles: List[int]
+    administrator_roles: List[int]

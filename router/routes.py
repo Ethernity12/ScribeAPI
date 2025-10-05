@@ -5,8 +5,8 @@ from DBDriver import DBDriver
 router = APIRouter()
 
 @router.post("/create_configuration")
-async def create_configuration(request: Request):
+async def create_configuration(request: Request, configuration: Configuration):
     db_driver: DBDriver = request.app.state.db_driver
-    await db_driver.create_configuration()
+    await db_driver.create_configuration(configuration)
     
     
