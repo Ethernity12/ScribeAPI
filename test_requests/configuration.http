@@ -1,4 +1,4 @@
-// Create configuration
+### Create configuration
 POST http://localhost:8000/api/v1/create_configuration
 Content-Type: application/json
 
@@ -10,3 +10,6 @@ Content-Type: application/json
     "moderator_roles": [1],
     "administrator_roles": [1]
 }
+
+### Search configuration
+GET http://localhost:8000/api/v1/search_configuration?guild_id=1

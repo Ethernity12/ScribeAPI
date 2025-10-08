@@ -1,6 +1,6 @@
 from typing import Union
 from motor.motor_asyncio import AsyncIOMotorClient, AsyncIOMotorDatabase, AsyncIOMotorCollection
-from logger import setup_logger
+from logger import DBOperationLogger, setup_logger
 from models import Configuration
 
 logger = setup_logger(__name__)
@@ -34,7 +34,13 @@ class DBDriver:
             raise RuntimeError("MongoDB client not initialized")
         return self.client.get_database(name)
     
-    
-    # Configuration CRUD        
+    # Configuration CRUD     
+    @DBOperationLogger(logger)   
     async def create_configuration(self, configuration: Configuration):
         await self.conf_collection.insert_one(configuration.model_dump())
+        
+    @DBOperationLogger(logger)
+    async def search_configuration(self, guild_id: int):
+        result = await self.conf_collection.find_one({'guild_id': guild_id})
+        conf = Configuration(**result)
+        return conf
