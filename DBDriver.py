@@ -61,5 +61,6 @@ class DBDriver:
     
     @DBOperationLogger(logger)
     async def delete_configuration(self, guild_id: int):
-        await self.conf_collection.delete_one({'guild_id': guild_id})
+        result = await self.conf_collection.delete_one({'guild_id': guild_id})
+        return result.deleted_count > 0
         

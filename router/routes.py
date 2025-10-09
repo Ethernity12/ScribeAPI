@@ -29,4 +29,7 @@ async def update_configuration(request: Request, update_configuration: UpdateCon
 @router.post("/delete_configuration")
 async def delete_configuration(request: Request, delete_config: DeleteConfiguration):
     db_driver: DBDriver = request.app.state.db_driver
-    await db_driver.delete_configuration(delete_config.guild_id)
+    result = await db_driver.delete_configuration(delete_config.guild_id)
+    if not result:
+        raise HTTPException(status_code=404, detail="Configuration not found")
+    return Response(status_code=204)
