@@ -42,7 +42,11 @@ class DBDriver:
     # Configuration CRUD     
     @DBOperationLogger(logger)   
     async def create_configuration(self, configuration: Configuration):
+        check_config = await self.conf_collection.find_one({'guild_id': configuration.guild_id})
+        if check_config:
+            return False
         await self.conf_collection.insert_one(configuration.model_dump())
+        return True
         
     @DBOperationLogger(logger)
     async def search_configuration(self, guild_id: int):
