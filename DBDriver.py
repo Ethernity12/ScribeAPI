@@ -21,7 +21,11 @@ class DBDriver:
     async def connect(self):
         self.client = AsyncIOMotorClient(self.host)
         self.db = self.client.get_database('ScribeDB')
-        await self.conf_collection.create_index('guild_id')
+        await self.conf_collection.create_index(
+            'guild_id',
+            unique=True,             
+            name='guild_id_idx'   
+        )
         logger.info(f'Connected to MongoDB at {self.host}')
     
     async def close(self):
