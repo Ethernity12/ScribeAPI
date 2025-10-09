@@ -1,5 +1,5 @@
 from fastapi import APIRouter, Request
-from models import Configuration, UpdateConfiguration
+from models import Configuration, DeleteConfiguration, UpdateConfiguration
 from DBDriver import DBDriver
 
 router = APIRouter()
@@ -18,3 +18,8 @@ async def search_configuration(request: Request, guild_id: int):
 async def update_configuration(request: Request, update_configuration: UpdateConfiguration):
     db_driver: DBDriver = request.app.state.db_driver
     await db_driver.update_configuration(update_configuration)
+    
+@router.post("/delete_configuration")
+async def delete_configuration(request: Request, delete_config: DeleteConfiguration):
+    db_driver: DBDriver = request.app.state.db_driver
+    await db_driver.delete_configuration(delete_config.guild_id)

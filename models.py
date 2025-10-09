@@ -16,3 +16,6 @@ class UpdateConfiguration(BaseModel):
     consideration_channel: Optional[int] = None
     moderator_roles: Optional[List[int]] = None
     administrator_roles: Optional[List[int]] = None
+    
+class DeleteConfiguration(BaseModel):
+    guild_id: int

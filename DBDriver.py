@@ -29,6 +29,7 @@ class DBDriver:
             self.client.close()
             logger.info(f'MongoDB connection closed')
             
+    @DBOperationLogger(logger)
     def get_database(self, name: str) -> AsyncIOMotorDatabase:
         if self.client is None:
             raise RuntimeError("MongoDB client not initialized")
@@ -50,4 +51,8 @@ class DBDriver:
         guild_id = update_data.guild_id
         update_data = update_data.model_dump(exclude={'guild_id'}, exclude_unset=True)
         await self.conf_collection.update_one({'guild_id': guild_id}, {'$set': update_data})
+        
+    @DBOperationLogger(logger)
+    async def delete_configuration(self, guild_id: int):
+        await self.conf_collection.delete_one({'guild_id': guild_id})
         

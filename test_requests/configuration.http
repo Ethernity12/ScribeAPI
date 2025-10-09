@@ -23,3 +23,11 @@ Content-Type: application/json
     "moderator_roles": [2],
     "administrator_roles": [2]
 }
+
+### Delete configuration
+POST http://localhost:8000/api/v1/delete_configuration
+Content-Type: application/json
+
+{
+    "guild_id": 1
+}
