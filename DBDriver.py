@@ -52,8 +52,9 @@ class DBDriver:
     async def update_configuration(self, update_data: UpdateConfiguration):
         guild_id = update_data.guild_id
         update_data = update_data.model_dump(exclude={'guild_id'}, exclude_unset=True)
-        await self.conf_collection.update_one({'guild_id': guild_id}, {'$set': update_data})
-        
+        result = await self.conf_collection.update_one({'guild_id': guild_id}, {'$set': update_data})
+        return result.matched_count > 0
+    
     @DBOperationLogger(logger)
     async def delete_configuration(self, guild_id: int):
         await self.conf_collection.delete_one({'guild_id': guild_id})

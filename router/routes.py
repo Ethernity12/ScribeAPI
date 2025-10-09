@@ -1,4 +1,4 @@
-from fastapi import APIRouter, Request, HTTPException
+from fastapi import APIRouter, Request, Response, HTTPException
 from models import Configuration, DeleteConfiguration, UpdateConfiguration
 from DBDriver import DBDriver
 
@@ -21,7 +21,12 @@ async def search_configuration(request: Request, guild_id: int):
 @router.post("/update_configuration")
 async def update_configuration(request: Request, update_configuration: UpdateConfiguration):
     db_driver: DBDriver = request.app.state.db_driver
-    await db_driver.update_configuration(update_configuration)
+    result = await db_driver.update_configuration(update_configuration)
+    if result is False:
+        raise HTTPException(status_code=404, detail="Configuration not found")
+    return Response(
+        status_code=202
+    )
     
 @router.post("/delete_configuration")
 async def delete_configuration(request: Request, delete_config: DeleteConfiguration):
