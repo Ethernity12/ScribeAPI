@@ -43,6 +43,8 @@ class DBDriver:
     @DBOperationLogger(logger)
     async def search_configuration(self, guild_id: int):
         result = await self.conf_collection.find_one({'guild_id': guild_id})
+        if result is None:
+            return None
         conf = Configuration(**result)
         return conf
     
