@@ -13,3 +13,13 @@ Content-Type: application/json
 
 ### Search configuration
 GET http://localhost:8000/api/v1/search_configuration?guild_id=1
+
+### Update configuration
+POST http://localhost:8000/api/v1/update_configuration
+Content-Type: application/json
+
+{
+    "guild_id": 1,
+    "moderator_roles": [2],
+    "administrator_roles": [2]
+}

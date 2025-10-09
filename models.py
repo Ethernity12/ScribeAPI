@@ -1,4 +1,4 @@
-from typing import List
+from typing import List, Optional
 from pydantic import BaseModel
 
 class Configuration(BaseModel):
@@ -8,3 +8,11 @@ class Configuration(BaseModel):
     consideration_channel: int
     moderator_roles: List[int]
     administrator_roles: List[int]
+    
+class UpdateConfiguration(BaseModel):
+    guild_id: int
+    ticket_channel: Optional[int] = None
+    questionnaire_channel: Optional[int] = None
+    consideration_channel: Optional[int] = None
+    moderator_roles: Optional[List[int]] = None
+    administrator_roles: Optional[List[int]] = None

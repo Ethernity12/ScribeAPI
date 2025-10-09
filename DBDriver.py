@@ -1,7 +1,7 @@
 from typing import Union
 from motor.motor_asyncio import AsyncIOMotorClient, AsyncIOMotorDatabase, AsyncIOMotorCollection
 from logger import DBOperationLogger, setup_logger
-from models import Configuration
+from models import Configuration, UpdateConfiguration
 
 logger = setup_logger(__name__)
 
@@ -44,3 +44,10 @@ class DBDriver:
         result = await self.conf_collection.find_one({'guild_id': guild_id})
         conf = Configuration(**result)
         return conf
+    
+    @DBOperationLogger(logger)
+    async def update_configuration(self, update_data: UpdateConfiguration):
+        guild_id = update_data.guild_id
+        update_data = update_data.model_dump(exclude={'guild_id'}, exclude_unset=True)
+        await self.conf_collection.update_one({'guild_id': guild_id}, {'$set': update_data})
+        
